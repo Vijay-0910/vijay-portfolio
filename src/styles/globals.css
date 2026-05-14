@@ -1,0 +1,213 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────
+   DARK THEME  (default)
+───────────────────────────────────────── */
+[data-theme="dark"] {
+  --bg:      #050816;
+  --accent:  #00d4ff;
+  --accent2: #6d4ad9;
+  --accent3: #5eead4;
+  --accent4: #00d4ff;
+  --muted:   #aaa6c3;
+  --font-sans: 'Inter';
+
+  /* Foreground/text at various opacities */
+  --fg:    rgba(240, 240, 240, 1);
+  --fg70:  rgba(240, 240, 240, 0.70);
+  --fg60:  rgba(240, 240, 240, 0.60);
+  --fg55:  rgba(240, 240, 240, 0.55);
+  --fg50:  rgba(240, 240, 240, 0.50);
+  --fg40:  rgba(240, 240, 240, 0.40);
+  --fg35:  rgba(240, 240, 240, 0.35);
+  --fg30:  rgba(240, 240, 240, 0.30);
+  --fg25:  rgba(240, 240, 240, 0.25);
+  --fg20:  rgba(240, 240, 240, 0.20);
+  --fg15:  rgba(240, 240, 240, 0.15);
+  --fg10:  rgba(240, 240, 240, 0.10);
+  --fg05:  rgba(240, 240, 240, 0.05);
+  --fgwm:  rgba(240, 240, 240, 0.015); /* watermark */
+
+  /* Surface (bg overlay) */
+  --sf02: rgba(255, 255, 255, 0.02);
+  --sf03: rgba(255, 255, 255, 0.03);
+  --sf05: rgba(255, 255, 255, 0.05);
+  --sf10: rgba(255, 255, 255, 0.10);
+
+  /* Borders */
+  --bd04: rgba(255, 255, 255, 0.04);
+  --bd05: rgba(255, 255, 255, 0.05);
+  --bd06: rgba(255, 255, 255, 0.06);
+  --bd08: rgba(255, 255, 255, 0.08);
+  --bd10: rgba(255, 255, 255, 0.10);
+  --bd15: rgba(255, 255, 255, 0.15);
+  --bd20: rgba(255, 255, 255, 0.20);
+
+  /* BG with opacity (for gradient overlays) */
+  --bg50: rgba(5,   8,  22, 0.50);
+  --bg60: rgba(5,   8,  22, 0.60);
+  --bg70: rgba(5,   8,  22, 0.70);
+  --bg80: rgba(5,   8,  22, 0.80);
+
+  /* Misc */
+  --navbar-blur-bg: rgba(5, 8, 22, 0.70);
+  --navbar-border:  rgba(255, 255, 255, 0.04);
+  --btn-text: #050816;
+  --cursor-color: #00d4ff;
+
+  /* Gradient strings */
+  --grad-main: linear-gradient(135deg, #00d4ff, #6d4ad9);
+  --grad-alt:  linear-gradient(135deg, #5eead4, #00d4ff);
+  --grad-loader: #00d4ff;
+
+  /* 3D canvas ring colors */
+  --ring1: #00d4ff;
+  --ring2: #6d4ad9;
+  --ring3: #5eead4;
+  --star-color: #00d4ff;
+}
+
+/* ─────────────────────────────────────────
+   LIGHT THEME
+───────────────────────────────────────── */
+[data-theme="light"] {
+  --bg:      #F5F5F0;
+  --accent:  #FF923E;
+  --accent2: #005CA8;
+  --accent3: #FF923E;
+  --accent4: #005CA8;
+  --muted:   #888870;
+  --font-sans: 'Poppins';
+
+  --fg:    rgba(26, 26, 46, 1);
+  --fg70:  rgba(26, 26, 46, 0.70);
+  --fg60:  rgba(26, 26, 46, 0.60);
+  --fg55:  rgba(26, 26, 46, 0.55);
+  --fg50:  rgba(26, 26, 46, 0.50);
+  --fg40:  rgba(26, 26, 46, 0.40);
+  --fg35:  rgba(26, 26, 46, 0.35);
+  --fg30:  rgba(26, 26, 46, 0.30);
+  --fg25:  rgba(26, 26, 46, 0.25);
+  --fg20:  rgba(26, 26, 46, 0.20);
+  --fg15:  rgba(26, 26, 46, 0.15);
+  --fg10:  rgba(26, 26, 46, 0.10);
+  --fg05:  rgba(26, 26, 46, 0.05);
+  --fgwm:  rgba(26, 26, 46, 0.04);
+
+  --sf02: rgba(0, 0, 0, 0.02);
+  --sf03: rgba(0, 0, 0, 0.03);
+  --sf05: rgba(0, 0, 0, 0.05);
+  --sf10: rgba(0, 0, 0, 0.10);
+
+  --bd04: rgba(0, 0, 0, 0.04);
+  --bd05: rgba(0, 0, 0, 0.05);
+  --bd06: rgba(0, 0, 0, 0.06);
+  --bd08: rgba(0, 0, 0, 0.08);
+  --bd10: rgba(0, 0, 0, 0.10);
+  --bd15: rgba(0, 0, 0, 0.15);
+  --bd20: rgba(0, 0, 0, 0.20);
+
+  --bg50: rgba(245, 245, 240, 0.50);
+  --bg60: rgba(245, 245, 240, 0.60);
+  --bg70: rgba(245, 245, 240, 0.70);
+  --bg80: rgba(245, 245, 240, 0.80);
+
+  --navbar-blur-bg: rgba(245, 245, 240, 0.85);
+  --navbar-border:  rgba(0, 0, 0, 0.06);
+  --btn-text: #ffffff;
+  --cursor-color: #FF923E;
+
+  --grad-main: linear-gradient(135deg, #FF923E, #005CA8);
+  --grad-alt:  linear-gradient(135deg, #005CA8, #FF923E);
+  --grad-loader: #FF923E;
+
+  --ring1: #FF923E;
+  --ring2: #005CA8;
+  --ring3: #FF923E;
+  --star-color: #FF923E;
+}
+
+/* ─────────────────────────────────────────
+   BASE STYLES
+───────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: auto;
+    overflow-x: hidden;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans), sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+    transition: background-color 0.5s ease, color 0.5s ease;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--accent) 25%, transparent);
+    color: var(--accent);
+  }
+
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--accent) 35%, transparent);
+    border-radius: 2px;
+  }
+}
+
+/* ─────────────────────────────────────────
+   3D TEXT — CSS layered depth effect
+   Works via text-shadow stacking that
+   follows the current accent colour
+───────────────────────────────────────── */
+[data-theme="dark"] {
+  --shadow-color: #00d4ff;
+  --shadow-mid:   #003d4d;
+  --shadow-deep:  #001820;
+}
+[data-theme="light"] {
+  --shadow-color: #FF923E;
+  --shadow-mid:   #7a3510;
+  --shadow-deep:  #3a1a06;
+}
+
+.hero-3d-text {
+  color: var(--fg);
+  text-shadow:
+    1px  1px  0  color-mix(in srgb, var(--shadow-color) 60%, transparent),
+    2px  2px  0  color-mix(in srgb, var(--shadow-color) 45%, transparent),
+    3px  3px  0  color-mix(in srgb, var(--shadow-mid)   70%, transparent),
+    4px  4px  0  color-mix(in srgb, var(--shadow-mid)   55%, transparent),
+    5px  5px  0  color-mix(in srgb, var(--shadow-deep)  80%, transparent),
+    6px  6px  0  color-mix(in srgb, var(--shadow-deep)  65%, transparent),
+    7px  7px  0  color-mix(in srgb, var(--shadow-deep)  50%, transparent),
+    8px  8px  12px color-mix(in srgb, var(--shadow-color) 20%, transparent);
+  transition: text-shadow 0.5s ease, color 0.5s ease;
+}
+
+@layer utilities {
+  .gpu {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+  .noise::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.025;
+  }
+}
