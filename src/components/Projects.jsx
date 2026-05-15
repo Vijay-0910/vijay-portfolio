@@ -41,20 +41,20 @@ function ProjectCard({ project, index }) {
         transition={{ duration: 0.4 }}
       />
 
-      <div className="relative z-10 grid grid-cols-12 items-center gap-6 px-4">
+      <div className="relative z-10 grid grid-cols-12 items-center gap-3 sm:gap-6 px-2 sm:px-4">
         {/* Number */}
-        <div className="col-span-1">
+        <div className="col-span-2 md:col-span-1">
           <span className="font-mono text-xs transition-colors duration-300" style={{ color: hovered ? 'var(--fg40)' : 'var(--fg20)' }}>
             {project.num}
           </span>
         </div>
 
         {/* Title */}
-        <div className="col-span-5 md:col-span-4">
-          <h3 className="text-xl md:text-2xl font-bold leading-tight transition-colors duration-300" style={{ color: 'var(--fg)' }}>
+        <div className="col-span-7 md:col-span-4">
+          <h3 className="text-lg sm:text-xl md:text-2xl font-bold leading-tight transition-colors duration-300" style={{ color: 'var(--fg)' }}>
             {project.title}
           </h3>
-          <p className="text-sm mt-1 font-mono" style={{ color: 'var(--fg30)' }}>{project.subtitle}</p>
+          <p className="text-xs sm:text-sm mt-1 font-mono" style={{ color: 'var(--fg30)' }}>{project.subtitle}</p>
         </div>
 
         {/* Description on hover */}
@@ -69,8 +69,8 @@ function ProjectCard({ project, index }) {
           </motion.p>
         </div>
 
-        {/* Tags */}
-        <div className="col-span-5 md:col-span-2 flex flex-wrap gap-1.5 justify-end">
+        {/* Tags — hidden on mobile, mobile shows year+arrow instead */}
+        <div className="hidden md:flex md:col-span-2 flex-wrap gap-1.5 justify-end">
           {project.tags.slice(0, 2).map((tag) => (
             <span
               key={tag}
@@ -87,8 +87,8 @@ function ProjectCard({ project, index }) {
         </div>
 
         {/* Year + Arrow */}
-        <div className="col-span-1 flex items-center justify-end gap-4">
-          <span className="text-xs font-mono hidden md:block" style={{ color: 'var(--fg20)' }}>{project.year}</span>
+        <div className="col-span-3 md:col-span-1 flex items-center justify-end gap-3 md:gap-4">
+          <span className="text-[11px] sm:text-xs font-mono" style={{ color: 'var(--fg20)' }}>{project.year}</span>
           <motion.div
             animate={{ x: hovered ? 0 : -4, opacity: hovered ? 1 : 0.3 }}
             transition={{ duration: 0.3 }}
@@ -118,7 +118,7 @@ export default function Projects() {
   const projects = theme === 'light' ? projectsLight : projectsDark
 
   return (
-    <section id="work" className="relative py-40 px-6 md:px-16 overflow-hidden">
+    <section id="work" className="relative py-24 md:py-40 px-5 sm:px-6 md:px-16 overflow-hidden">
       <div
         className="absolute top-1/2 right-0 -translate-y-1/2 text-[18vw] font-black select-none pointer-events-none whitespace-nowrap z-0 leading-none"
         style={{ color: 'var(--fgwm)' }}
@@ -146,7 +146,7 @@ export default function Projects() {
               initial={{ opacity: 0, y: 40 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-5xl md:text-7xl font-black leading-none"
+              className="text-4xl sm:text-5xl md:text-7xl font-black leading-tight md:leading-none"
               style={{ color: 'var(--fg)' }}
             >
               Featured<br />
@@ -179,16 +179,20 @@ export default function Projects() {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="mt-16 flex justify-center"
         >
-          <button
+          <a
+            href="https://github.com/vijayakumar"
+            target="_blank"
+            rel="noopener noreferrer"
             data-cursor="hover"
+            aria-label="View all projects on GitHub"
             className="group inline-flex items-center gap-4 text-sm font-mono transition-colors duration-300"
             style={{ color: 'var(--fg30)' }}
             onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--fg)')}
             onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--fg30)')}
           >
-            View all projects
+            View all projects on GitHub ↗
             <span className="w-8 h-px transition-all duration-300 group-hover:w-16" style={{ backgroundColor: 'var(--fg20)' }} />
-          </button>
+          </a>
         </motion.div>
       </div>
     </section>

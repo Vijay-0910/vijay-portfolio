@@ -1,9 +1,39 @@
-import { useEffect, useRef, lazy, Suspense } from 'react'
+import { useEffect, useRef, useState, lazy, Suspense } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
-import { gsap } from 'gsap'
 import { useTheme } from '../context/ThemeContext'
 
 const HeroCanvas = lazy(() => import('./HeroCanvas'))
+
+function useDeferredMount(ref) {
+  const [ready, setReady] = useState(false)
+  useEffect(() => {
+    if (ready || !ref.current) return
+    const node = ref.current
+    let cancelled = false
+    const trigger = () => { if (!cancelled) setReady(true) }
+
+    const io = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { trigger(); io.disconnect() } },
+      { rootMargin: '200px' }
+    )
+    io.observe(node)
+
+    const idle = window.requestIdleCallback
+      ? window.requestIdleCallback(trigger, { timeout: 2000 })
+      : window.setTimeout(trigger, 1500)
+
+    return () => {
+      cancelled = true
+      io.disconnect()
+      if (window.cancelIdleCallback && typeof idle === 'number') {
+        window.cancelIdleCallback(idle)
+      } else {
+        window.clearTimeout(idle)
+      }
+    }
+  }, [ready, ref])
+  return ready
+}
 
 const sentence = {
   hidden: { opacity: 1 },
@@ -24,7 +54,8 @@ export default function Hero() {
   const springY = useSpring(mouseY, { stiffness: 40, damping: 20 })
   const orbX = useMotionValue(0)
   const orbSpringX = useSpring(orbX, { stiffness: 20, damping: 15 })
-  const arrowRef = useRef(null)
+  const canvasMountRef = useRef(null)
+  const canvasReady = useDeferredMount(canvasMountRef)
 
   useEffect(() => {
     const handleMouse = (e) => {
@@ -38,22 +69,19 @@ export default function Hero() {
     return () => el?.removeEventListener('mousemove', handleMouse)
   }, [])
 
-  useEffect(() => {
-    if (!arrowRef.current) return
-    gsap.to(arrowRef.current, { y: 10, repeat: -1, yoyo: true, duration: 1.2, ease: 'sine.inOut' })
-  }, [])
-
   return (
     <section
       ref={containerRef}
       id="hero"
       className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden"
     >
-      {/* WebGL */}
-      <div className="absolute inset-0 z-0">
-        <Suspense fallback={null}>
-          <HeroCanvas mouseX={springX} mouseY={springY} theme={theme} />
-        </Suspense>
+      {/* WebGL — deferred until in view or idle */}
+      <div ref={canvasMountRef} className="absolute inset-0 z-0">
+        {canvasReady && (
+          <Suspense fallback={null}>
+            <HeroCanvas mouseX={springX} mouseY={springY} theme={theme} />
+          </Suspense>
+        )}
       </div>
 
       {/* Gradient fade to bg */}
@@ -63,24 +91,24 @@ export default function Hero() {
       />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center text-center px-6 select-none">
+      <div className="relative z-10 flex flex-col items-center text-center px-4 sm:px-6 select-none w-full">
         {/* Eyebrow */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-6 flex items-center gap-3"
+          className="mb-6 flex items-center gap-2 sm:gap-3 max-w-full"
         >
-          <span className="w-8 h-px" style={{ backgroundColor: 'var(--accent)' }} />
-          <span className="font-mono text-xs tracking-[0.3em] uppercase" style={{ color: 'var(--accent)' }}>
+          <span className="w-4 sm:w-8 h-px flex-shrink-0" style={{ backgroundColor: 'var(--accent)' }} />
+          <span className="font-mono text-[10px] sm:text-xs tracking-[0.2em] sm:tracking-[0.3em] uppercase whitespace-nowrap" style={{ color: 'var(--accent)' }}>
             Fullstack · Growing into DevOps
           </span>
-          <span className="w-8 h-px" style={{ backgroundColor: 'var(--accent)' }} />
+          <span className="w-4 sm:w-8 h-px flex-shrink-0" style={{ backgroundColor: 'var(--accent)' }} />
         </motion.div>
 
         {/* Name — letter reveal + CSS 3D depth */}
         <motion.h1
-          className="text-6xl md:text-8xl lg:text-[10rem] font-black leading-none tracking-tight hero-3d-text"
+          className="text-[15vw] sm:text-6xl md:text-8xl lg:text-[10rem] font-black leading-none tracking-tight hero-3d-text"
           style={{ perspective: '800px' }}
           variants={sentence}
           initial="hidden"
@@ -98,7 +126,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-6 text-lg md:text-2xl font-light max-w-2xl leading-relaxed"
+          className="mt-5 sm:mt-6 text-base sm:text-lg md:text-2xl font-light max-w-2xl leading-relaxed px-2"
           style={{ color: 'var(--fg40)' }}
         >
           Fullstack Developer growing into{' '}
@@ -108,17 +136,40 @@ export default function Hero() {
           {', '}end-to-end.
         </motion.p>
 
+        {/* Availability pill */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.15, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-full"
+          style={{ border: '1px solid var(--bd15)', background: 'var(--sf03)' }}
+        >
+          <span className="relative flex w-2 h-2">
+            <span
+              className="absolute inline-flex h-full w-full rounded-full opacity-60 animate-ping"
+              style={{ backgroundColor: 'var(--accent3, #4ade80)' }}
+            />
+            <span
+              className="relative inline-flex w-2 h-2 rounded-full"
+              style={{ backgroundColor: 'var(--accent3, #4ade80)' }}
+            />
+          </span>
+          <span className="font-mono text-[11px] tracking-wider uppercase" style={{ color: 'var(--fg60)' }}>
+            Open to opportunities · Building in public
+          </span>
+        </motion.div>
+
         {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1.3, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-12 flex items-center gap-6"
+          className="mt-10 sm:mt-12 flex flex-col sm:flex-row items-center gap-4 sm:gap-6"
         >
           <button
             data-cursor="hover"
             onClick={() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })}
-            className="group relative px-8 py-4 font-semibold text-sm rounded-full overflow-hidden transition-all duration-300"
+            className="group relative px-7 sm:px-8 py-3.5 sm:py-4 font-semibold text-sm rounded-full overflow-hidden transition-all duration-300"
             style={{
               background: 'var(--accent)',
               color: 'var(--btn-text)',
@@ -149,7 +200,7 @@ export default function Hero() {
       </div>
 
       {/* Scroll indicator */}
-      <div ref={arrowRef} className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 hero-scroll-bob">
         <span className="font-mono text-[10px] tracking-widest uppercase" style={{ color: 'var(--fg20)' }}>
           Scroll
         </span>

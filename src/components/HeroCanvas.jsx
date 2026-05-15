@@ -38,9 +38,8 @@ class WebGLBoundary extends Component {
   }
 }
 
-function StarField({ starColor }) {
+function StarField({ starColor, count }) {
   const ref = useRef()
-  const count = 3000
 
   const positions = useMemo(() => {
     const arr = new Float32Array(count * 3)
@@ -50,7 +49,7 @@ function StarField({ starColor }) {
       arr[i * 3 + 2] = (Math.random() - 0.5) * 20
     }
     return arr
-  }, [])
+  }, [count])
 
   useFrame((_, delta) => {
     if (!ref.current) return
@@ -84,8 +83,9 @@ function FloatingRing({ position, color, speed = 1 }) {
   )
 }
 
-function Scene({ mouseX, mouseY, colors }) {
+function Scene({ mouseX, mouseY, colors, isMobile }) {
   const groupRef = useRef()
+  const starCount = isMobile ? 800 : 3000
 
   useFrame(() => {
     if (!groupRef.current) return
@@ -95,16 +95,20 @@ function Scene({ mouseX, mouseY, colors }) {
 
   return (
     <group ref={groupRef}>
-      <StarField starColor={colors.star} />
-      <FloatingRing position={[0, 0, -3]}  color={colors.ring1} speed={0.8} />
-      <FloatingRing position={[2, -1, -5]} color={colors.ring2} speed={1.2} />
-      <FloatingRing position={[-2, 1, -4]} color={colors.ring3} speed={0.6} />
+      <StarField starColor={colors.star} count={starCount} />
+      {!isMobile && <FloatingRing position={[0, 0, -3]}  color={colors.ring1} speed={0.8} />}
+      <FloatingRing position={[2, -1, -5]} color={colors.ring2} speed={isMobile ? 0.8 : 1.2} />
+      {!isMobile && <FloatingRing position={[-2, 1, -4]} color={colors.ring3} speed={0.6} />}
     </group>
   )
 }
 
 export default function HeroCanvas({ mouseX, mouseY, theme }) {
   const [webglOk, setWebglOk] = useState(() => detectWebGL())
+  const [isMobile] = useState(() =>
+    typeof window !== 'undefined' &&
+    (window.matchMedia?.('(max-width: 640px)').matches || window.innerWidth < 640)
+  )
 
   const colors = theme === 'light'
     ? { star: '#FF923E', ring1: '#FF923E', ring2: '#005CA8', ring3: '#FF923E' }
@@ -117,9 +121,14 @@ export default function HeroCanvas({ mouseX, mouseY, theme }) {
       <Canvas
         key={theme}
         camera={{ position: [0, 0, 4], fov: 60 }}
-        dpr={[1, 2]}
+        dpr={isMobile ? 1 : [1, 2]}
         style={{ background: 'transparent' }}
-        gl={{ antialias: true, alpha: true, failIfMajorPerformanceCaveat: false, powerPreference: 'default' }}
+        gl={{
+          antialias: !isMobile,
+          alpha: true,
+          failIfMajorPerformanceCaveat: false,
+          powerPreference: isMobile ? 'low-power' : 'default',
+        }}
         onCreated={({ gl }) => {
           const canvasEl = gl.domElement
           const handleLost = (e) => { e.preventDefault(); setWebglOk(false) }
@@ -127,7 +136,7 @@ export default function HeroCanvas({ mouseX, mouseY, theme }) {
         }}
       >
         <Suspense fallback={null}>
-          <Scene mouseX={mouseX} mouseY={mouseY} colors={colors} />
+          <Scene mouseX={mouseX} mouseY={mouseY} colors={colors} isMobile={isMobile} />
         </Suspense>
       </Canvas>
     </WebGLBoundary>

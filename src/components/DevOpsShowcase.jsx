@@ -77,11 +77,11 @@ function PipelineStage({ stage, index, inView }) {
       initial={{ opacity: 0, y: 30, scale: 0.9 }}
       animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
       transition={{ duration: 0.7, delay: index * 0.12 + 0.3, ease: [0.16, 1, 0.3, 1] }}
-      className="relative flex flex-col items-center text-center group"
+      className="relative flex flex-row md:flex-col items-center md:text-center group gap-4 md:gap-0 w-full md:w-auto"
     >
       {/* Icon ring */}
       <div
-        className="relative w-16 h-16 md:w-20 md:h-20 rounded-2xl flex items-center justify-center transition-all duration-500"
+        className="relative w-14 h-14 md:w-20 md:h-20 rounded-2xl flex items-center justify-center transition-all duration-500 flex-shrink-0"
         style={{
           background: 'var(--sf03)',
           border: `1px solid ${stage.color}30`,
@@ -96,7 +96,7 @@ function PipelineStage({ stage, index, inView }) {
       </div>
 
       {/* Label */}
-      <div className="mt-4">
+      <div className="md:mt-4 text-left md:text-center min-w-0 flex-1 md:flex-none">
         <div className="text-sm font-semibold" style={{ color: 'var(--fg)' }}>
           {stage.label}
         </div>
@@ -110,15 +110,28 @@ function PipelineStage({ stage, index, inView }) {
 
 function PipelineConnector({ index, inView, color }) {
   return (
-    <motion.div
-      initial={{ scaleX: 0 }}
-      animate={inView ? { scaleX: 1 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.12 + 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="hidden md:flex flex-1 items-center justify-center origin-left h-px self-start mt-10"
-      style={{
-        background: `linear-gradient(90deg, ${color}50, ${color}10)`,
-      }}
-    />
+    <>
+      {/* Mobile: short vertical line, aligned with icon center (icon = w-14, padding-left = 28px) */}
+      <motion.div
+        initial={{ scaleY: 0 }}
+        animate={inView ? { scaleY: 1 } : {}}
+        transition={{ duration: 0.4, delay: index * 0.12 + 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className="md:hidden h-6 w-px origin-top ml-7"
+        style={{
+          background: `linear-gradient(180deg, ${color}50, ${color}10)`,
+        }}
+      />
+      {/* Desktop: horizontal line between stages */}
+      <motion.div
+        initial={{ scaleX: 0 }}
+        animate={inView ? { scaleX: 1 } : {}}
+        transition={{ duration: 0.5, delay: index * 0.12 + 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className="hidden md:flex flex-1 items-center justify-center origin-left h-px self-start mt-10"
+        style={{
+          background: `linear-gradient(90deg, ${color}50, ${color}10)`,
+        }}
+      />
+    </>
   )
 }
 
@@ -129,7 +142,7 @@ export default function DevOpsShowcase() {
   const pipeline = theme === 'light' ? pipelineLight : pipelineDark
 
   return (
-    <section id="devops" className="relative py-40 px-6 md:px-16 overflow-hidden">
+    <section id="devops" className="relative py-24 md:py-40 px-5 sm:px-6 md:px-16 overflow-hidden">
       {/* Watermark */}
       <div
         className="absolute top-1/2 left-0 -translate-y-1/2 text-[18vw] font-black select-none pointer-events-none whitespace-nowrap z-0 leading-none"
@@ -163,7 +176,7 @@ export default function DevOpsShowcase() {
             initial={{ opacity: 0, y: 40 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl font-black leading-none mb-6"
+            className="text-4xl sm:text-5xl md:text-7xl font-black leading-tight md:leading-none mb-6"
             style={{ color: 'var(--fg)' }}
           >
             From local commit<br />
@@ -188,15 +201,18 @@ export default function DevOpsShowcase() {
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="relative rounded-3xl p-8 md:p-12 mb-20"
+          className="relative rounded-2xl md:rounded-3xl p-5 sm:p-8 md:p-12 mb-14 md:mb-20"
           style={{
             background: 'var(--sf02)',
             border: '1px solid var(--bd06)',
           }}
         >
-          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-2">
+          <div className="flex flex-col md:flex-row items-stretch md:items-center gap-0 md:gap-2">
             {pipeline.map((stage, i) => (
-              <div key={stage.label} className="contents md:flex md:flex-1 md:items-start md:justify-center">
+              <div
+                key={stage.label}
+                className="flex flex-col md:flex-1 md:flex-row md:items-start md:justify-center"
+              >
                 <PipelineStage stage={stage} index={i} inView={inView} />
                 {i < pipeline.length - 1 && (
                   <PipelineConnector index={i} inView={inView} color={stage.color} />
@@ -236,7 +252,7 @@ export default function DevOpsShowcase() {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, delay: 0.6 + i * 0.06, ease: [0.16, 1, 0.3, 1] }}
-              className="group relative p-8 transition-colors duration-500"
+              className="group relative p-6 md:p-8 transition-colors duration-500"
               style={{ background: 'var(--bg)' }}
               data-cursor="hover"
               onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--sf02)')}

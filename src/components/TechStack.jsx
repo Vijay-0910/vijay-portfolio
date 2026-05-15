@@ -27,7 +27,7 @@ export default function TechStack() {
   const categories = theme === 'light' ? categoriesLight : categoriesDark
 
   return (
-    <section id="tech" className="relative py-40 px-6 md:px-16 overflow-hidden">
+    <section id="tech" className="relative py-24 md:py-40 px-5 sm:px-6 md:px-16 overflow-hidden">
       {/* Marquee ticker */}
       <div
         className="absolute top-0 left-0 right-0 overflow-hidden py-4"
@@ -69,7 +69,7 @@ export default function TechStack() {
             initial={{ opacity: 0, y: 40 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl font-black leading-none"
+            className="text-4xl sm:text-5xl md:text-7xl font-black leading-tight md:leading-none"
             style={{ color: 'var(--fg)' }}
           >
             Tools I<br />
@@ -90,7 +90,7 @@ export default function TechStack() {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, delay: catIdx * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="group relative p-8 transition-colors duration-500"
+              className="group relative p-6 md:p-8 transition-colors duration-500"
               style={{ background: 'var(--bg)' }}
               data-cursor="hover"
               onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--sf02)')}
@@ -128,7 +128,7 @@ export default function TechStack() {
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="p-8 flex flex-col justify-between"
+            className="p-6 md:p-8 flex flex-col justify-between"
             style={{ background: 'var(--bg)' }}
           >
             <div className="flex items-center gap-2 mb-4">

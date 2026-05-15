@@ -1,12 +1,109 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 
 const socials = [
-  { label: 'LinkedIn', handle: '/in/vijayakumar', href: 'https://linkedin.com', note: 'Where I post the journey' },
-  { label: 'GitHub',   handle: '@vijayakumar',    href: 'https://github.com',   note: 'Code lives here' },
-  { label: 'Twitter',  handle: '@vijayakumar',    href: 'https://twitter.com',  note: 'Occasional dev notes' },
-  { label: 'Email',    handle: 'aravindfinal1@gmail.com', href: 'mailto:aravindfinal1@gmail.com', note: 'Direct line' },
+  { label: 'LinkedIn', handle: '/in/vijayakumar', href: 'https://www.linkedin.com/in/vijayakumar', note: 'Where I post the journey' },
+  { label: 'GitHub',   handle: '@vijayakumar',    href: 'https://github.com/vijayakumar',         note: 'Code lives here' },
+  { label: 'Twitter',  handle: '@vijayakumar',    href: 'https://twitter.com/vijayakumar',        note: 'Occasional dev notes' },
+  { label: 'Email',    handle: 'aravindfinal1@gmail.com', href: 'mailto:aravindfinal1@gmail.com', note: 'Direct line — copy or click', copyable: true },
 ]
+
+function SocialRow({ social: s, isLast }) {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = async (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    try {
+      await navigator.clipboard.writeText(s.handle)
+    } catch {
+      const ta = document.createElement('textarea')
+      ta.value = s.handle
+      document.body.appendChild(ta)
+      ta.select()
+      try { document.execCommand('copy') } catch {}
+      document.body.removeChild(ta)
+    }
+    setCopied(true)
+    setTimeout(() => setCopied(false), 1800)
+  }
+
+  const labelBlock = (
+    <div className="text-sm sm:text-base font-semibold transition-colors duration-300" style={{ color: 'var(--fg)' }}>
+      {s.label}
+    </div>
+  )
+  const handleBlock = (
+    <>
+      <div className="font-mono text-[11px] sm:text-xs transition-colors duration-300 truncate" style={{ color: 'var(--fg40)' }}>
+        {s.handle}
+      </div>
+      <div className="text-[10px] sm:text-[11px] mt-1 transition-colors duration-300 truncate" style={{ color: 'var(--fg25)' }}>
+        {s.note}
+      </div>
+    </>
+  )
+
+  const rowStyle = { borderBottom: isLast ? 'none' : '1px solid var(--bd06)' }
+
+  if (s.copyable) {
+    // Email row: container is a div (no nested-button-in-anchor invalid HTML)
+    return (
+      <motion.div
+        whileHover={{ x: 8 }}
+        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        className="group relative grid grid-cols-12 items-center py-5 md:py-6 gap-2 transition-colors duration-300"
+        style={rowStyle}
+      >
+        <div className="col-span-4 sm:col-span-3">{labelBlock}</div>
+        <a
+          href={s.href}
+          aria-label={`Send email to ${s.handle}`}
+          data-cursor="hover"
+          className="col-span-6 sm:col-span-7 min-w-0 group-hover:opacity-90"
+        >
+          {handleBlock}
+        </a>
+        <div className="col-span-2 flex items-center justify-end gap-2">
+          <button
+            type="button"
+            onClick={handleCopy}
+            aria-label={copied ? 'Email copied' : 'Copy email to clipboard'}
+            data-cursor="hover"
+            className="px-2 py-1 rounded text-[10px] font-mono transition-all whitespace-nowrap"
+            style={{
+              border: '1px solid var(--bd15)',
+              color: copied ? 'var(--accent3, #4ade80)' : 'var(--fg40)',
+              background: copied ? 'color-mix(in srgb, var(--accent3, #4ade80) 12%, transparent)' : 'transparent',
+            }}
+          >
+            {copied ? '✓ Copied' : 'Copy'}
+          </button>
+        </div>
+      </motion.div>
+    )
+  }
+
+  return (
+    <motion.a
+      href={s.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-cursor="hover"
+      aria-label={`${s.label}: ${s.handle}`}
+      whileHover={{ x: 8 }}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      className="group relative grid grid-cols-12 items-center py-5 md:py-6 gap-2 transition-colors duration-300"
+      style={rowStyle}
+    >
+      <div className="col-span-4 sm:col-span-3">{labelBlock}</div>
+      <div className="col-span-6 sm:col-span-7 min-w-0">{handleBlock}</div>
+      <div className="col-span-2 flex justify-end">
+        <span className="text-lg transition-all duration-300 group-hover:text-[var(--accent)]" style={{ color: 'var(--fg25)' }}>↗</span>
+      </div>
+    </motion.a>
+  )
+}
 
 export default function Contact() {
   const ref = useRef(null)
@@ -22,7 +119,7 @@ export default function Contact() {
   }
 
   return (
-    <section id="connect" className="relative py-40 px-6 md:px-16 overflow-hidden">
+    <section id="connect" className="relative py-24 md:py-40 px-5 sm:px-6 md:px-16 overflow-hidden">
       {/* Watermark */}
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[18vw] font-black select-none pointer-events-none whitespace-nowrap z-0 leading-none"
@@ -51,7 +148,7 @@ export default function Contact() {
           </span>
         </motion.span>
 
-        <div className="grid md:grid-cols-2 gap-20 items-start">
+        <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-start">
           {/* Left — heading + intro */}
           <div>
             <motion.h2
@@ -59,7 +156,7 @@ export default function Contact() {
               variants={item}
               initial="hidden"
               animate={inView ? 'visible' : 'hidden'}
-              className="text-5xl md:text-7xl font-black leading-none mb-8"
+              className="text-4xl sm:text-5xl md:text-7xl font-black leading-tight md:leading-none mb-6 md:mb-8"
               style={{ color: 'var(--fg)' }}
             >
               Sharing the<br />
@@ -102,45 +199,11 @@ export default function Contact() {
             className="flex flex-col"
           >
             {socials.map((s, i) => (
-              <motion.a
+              <SocialRow
                 key={s.label}
-                href={s.href}
-                target={s.href.startsWith('mailto:') ? undefined : '_blank'}
-                rel="noopener noreferrer"
-                data-cursor="hover"
-                whileHover={{ x: 8 }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                className="group relative grid grid-cols-12 items-center py-6 transition-colors duration-300"
-                style={{ borderBottom: i < socials.length - 1 ? '1px solid var(--bd06)' : 'none' }}
-              >
-                <div className="col-span-3">
-                  <div className="text-base font-semibold transition-colors duration-300" style={{ color: 'var(--fg)' }}>
-                    {s.label}
-                  </div>
-                </div>
-                <div className="col-span-7">
-                  <div
-                    className="font-mono text-xs transition-colors duration-300"
-                    style={{ color: 'var(--fg40)' }}
-                  >
-                    {s.handle}
-                  </div>
-                  <div
-                    className="text-[11px] mt-1 transition-colors duration-300"
-                    style={{ color: 'var(--fg25)' }}
-                  >
-                    {s.note}
-                  </div>
-                </div>
-                <div className="col-span-2 flex justify-end">
-                  <span
-                    className="text-lg transition-all duration-300 group-hover:text-[var(--accent)]"
-                    style={{ color: 'var(--fg25)' }}
-                  >
-                    ↗
-                  </span>
-                </div>
-              </motion.a>
+                social={s}
+                isLast={i === socials.length - 1}
+              />
             ))}
           </motion.div>
         </div>

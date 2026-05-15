@@ -1,14 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
+    <script>
+      // Apply persisted theme before paint to avoid flash. Defaults to light.
+      try {
+        var t = localStorage.getItem('portfolio-theme') || 'light';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (_) {}
+    </script>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Vijayakumar — Fullstack Developer & DevOps Engineer" />
-    <title>Vijayakumar — Developer</title>
+    <meta name="description" content="Vijayakumar — Fullstack Developer growing into DevOps. React · Node · Docker · AWS · CI/CD. Shipping production projects end-to-end." />
+    <meta name="keywords" content="Vijayakumar, Fullstack Developer, DevOps Engineer, React, Node.js, Docker, AWS, CI/CD, Portfolio" />
+    <meta name="author" content="Vijayakumar" />
+    <meta name="theme-color" content="#FF923E" />
+    <title>Vijayakumar — Fullstack Developer & DevOps Engineer</title>
+
+    <!-- Open Graph (LinkedIn, Slack, WhatsApp, Discord) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Vijayakumar — Fullstack Developer & DevOps Engineer" />
+    <meta property="og:description" content="Fullstack Developer growing into DevOps. Shipping production projects end-to-end — React, Node, Docker, AWS, CI/CD." />
+    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Vijayakumar — Fullstack Developer & DevOps Engineer" />
+    <meta property="og:site_name" content="Vijayakumar Portfolio" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Vijayakumar — Fullstack Developer & DevOps Engineer" />
+    <meta name="twitter:description" content="Fullstack Developer growing into DevOps. Shipping production projects end-to-end." />
+    <meta name="twitter:image" content="/og-image.png" />
+
+    <!-- Robots / canonical -->
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="/" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Poppins:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Poppins:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Poppins:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400&display=swap"
+      />
+    </noscript>
   </head>
   <body>
     <div id="root"></div>

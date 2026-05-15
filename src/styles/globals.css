@@ -153,6 +153,10 @@
     transition: background-color 0.5s ease, color 0.5s ease;
   }
 
+  @media (pointer: coarse) {
+    body { cursor: auto; }
+  }
+
   ::selection {
     background: color-mix(in srgb, var(--accent) 25%, transparent);
     color: var(--accent);
@@ -163,6 +167,44 @@
   ::-webkit-scrollbar-thumb {
     background: color-mix(in srgb, var(--accent) 35%, transparent);
     border-radius: 2px;
+  }
+
+  /* Keyboard focus ring — visible only for keyboard users */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Skip-to-content link — hidden until focused */
+  .skip-link {
+    position: fixed;
+    top: -40px;
+    left: 16px;
+    z-index: 200;
+    padding: 8px 16px;
+    background: var(--accent);
+    color: var(--btn-text);
+    font-family: var(--font-sans), sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: top 0.2s;
+  }
+  .skip-link:focus {
+    top: 12px;
+    outline: none;
+  }
+}
+
+/* Respect user's motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
@@ -194,6 +236,24 @@
     7px  7px  0  color-mix(in srgb, var(--shadow-deep)  50%, transparent),
     8px  8px  12px color-mix(in srgb, var(--shadow-color) 20%, transparent);
   transition: text-shadow 0.5s ease, color 0.5s ease;
+}
+
+@media (max-width: 640px) {
+  .hero-3d-text {
+    text-shadow:
+      1px 1px 0 color-mix(in srgb, var(--shadow-color) 50%, transparent),
+      2px 2px 0 color-mix(in srgb, var(--shadow-mid)   60%, transparent),
+      3px 3px 0 color-mix(in srgb, var(--shadow-deep)  60%, transparent);
+  }
+}
+
+@keyframes heroScrollBob {
+  0%, 100% { transform: translate(-50%, 0); }
+  50%      { transform: translate(-50%, 10px); }
+}
+.hero-scroll-bob {
+  animation: heroScrollBob 1.8s ease-in-out infinite;
+  transform: translate(-50%, 0);
 }
 
 @layer utilities {

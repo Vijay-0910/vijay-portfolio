@@ -1,13 +1,17 @@
+import { lazy, Suspense } from 'react'
 import { motion } from 'framer-motion'
 import Hero from '../components/Hero'
-import About from '../components/About'
-import Experience from '../components/Experience'
-import DevOpsShowcase from '../components/DevOpsShowcase'
-import Projects from '../components/Projects'
-import TechStack from '../components/TechStack'
-import Contact from '../components/Contact'
-import Footer from '../components/Footer'
 import SectionDivider from '../components/SectionDivider'
+
+const About = lazy(() => import('../components/About'))
+const Experience = lazy(() => import('../components/Experience'))
+const DevOpsShowcase = lazy(() => import('../components/DevOpsShowcase'))
+const Projects = lazy(() => import('../components/Projects'))
+const TechStack = lazy(() => import('../components/TechStack'))
+const Contact = lazy(() => import('../components/Contact'))
+const Footer = lazy(() => import('../components/Footer'))
+
+const SectionFallback = () => <div style={{ minHeight: '50vh' }} aria-hidden />
 
 export default function Home() {
   return (
@@ -19,18 +23,20 @@ export default function Home() {
     >
       <Hero />
       <SectionDivider />
-      <About />
-      <SectionDivider />
-      <Experience />
-      <SectionDivider />
-      <DevOpsShowcase />
-      <SectionDivider />
-      <Projects />
-      <SectionDivider />
-      <TechStack />
-      <SectionDivider />
-      <Contact />
-      <Footer />
+      <Suspense fallback={<SectionFallback />}>
+        <About />
+        <SectionDivider />
+        <Experience />
+        <SectionDivider />
+        <DevOpsShowcase />
+        <SectionDivider />
+        <Projects />
+        <SectionDivider />
+        <TechStack />
+        <SectionDivider />
+        <Contact />
+        <Footer />
+      </Suspense>
     </motion.main>
   )
 }

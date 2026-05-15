@@ -20,6 +20,8 @@ function ThemeToggle() {
       onClick={toggle}
       data-cursor="hover"
       title={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+      aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+      aria-pressed={isDark}
       className="relative flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-300"
       style={{
         borderColor: 'var(--bd15)',
@@ -88,7 +90,7 @@ export default function Navbar() {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 1.6 }}
-      className="fixed top-0 left-0 right-0 z-[100] px-8 py-5 flex items-center justify-between"
+      className="fixed top-0 left-0 right-0 z-[100] px-5 sm:px-8 py-4 sm:py-5 flex items-center justify-between"
       style={{
         backdropFilter: scrolled ? 'blur(12px)' : 'none',
         background: scrolled ? 'var(--navbar-blur-bg)' : 'transparent',
@@ -131,7 +133,7 @@ export default function Navbar() {
         <ThemeToggle />
 
         <a
-          href="https://linkedin.com"
+          href="https://www.linkedin.com/in/vijayakumar"
           target="_blank"
           rel="noopener noreferrer"
           data-cursor="hover"
@@ -154,11 +156,14 @@ export default function Navbar() {
       </nav>
 
       {/* Mobile: toggle + hamburger */}
-      <div className="md:hidden flex items-center gap-4">
+      <div className="md:hidden flex items-center gap-3">
         <ThemeToggle />
         <button
           className="flex flex-col gap-1.5 z-50"
           onClick={() => setMenuOpen(!menuOpen)}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
           data-cursor="hover"
         >
           <motion.span
@@ -181,6 +186,10 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       <motion.div
+        id="mobile-menu"
+        role="dialog"
+        aria-modal="true"
+        aria-hidden={!menuOpen}
         initial={{ opacity: 0, x: '100%' }}
         animate={{ opacity: menuOpen ? 1 : 0, x: menuOpen ? '0%' : '100%' }}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}

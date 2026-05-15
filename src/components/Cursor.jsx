@@ -1,13 +1,20 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 
+const detectTouch = () => {
+  if (typeof window === 'undefined') return false
+  return window.matchMedia?.('(pointer: coarse)').matches || 'ontouchstart' in window
+}
+
 export default function Cursor() {
   const dotRef = useRef(null)
   const ringRef = useRef(null)
   const [isHovering, setIsHovering] = useState(false)
   const [isClicking, setIsClicking] = useState(false)
+  const [isTouch] = useState(detectTouch)
 
   useEffect(() => {
+    if (isTouch) return
     const dot = dotRef.current
     const ringEl = ringRef.current
 
@@ -39,7 +46,9 @@ export default function Cursor() {
       window.removeEventListener('mouseup', onMouseUp)
       observer.disconnect()
     }
-  }, [])
+  }, [isTouch])
+
+  if (isTouch) return null
 
   return (
     <>

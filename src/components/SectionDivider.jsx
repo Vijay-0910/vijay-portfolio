@@ -6,7 +6,7 @@ export default function SectionDivider() {
   const inView = useInView(ref, { once: true })
 
   return (
-    <div ref={ref} className="relative flex items-center justify-center py-4 px-16">
+    <div ref={ref} className="relative flex items-center justify-center py-4 px-6 sm:px-16">
       <motion.div
         initial={{ scaleX: 0 }}
         animate={inView ? { scaleX: 1 } : {}}

@@ -23,7 +23,7 @@ export default function About() {
   }
 
   return (
-    <section id="about" className="relative py-40 px-6 md:px-16 overflow-hidden">
+    <section id="about" className="relative py-24 md:py-40 px-5 sm:px-6 md:px-16 overflow-hidden">
       {/* Watermark */}
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20vw] font-black select-none pointer-events-none whitespace-nowrap z-0"
@@ -37,7 +37,7 @@ export default function About() {
         variants={container}
         initial="hidden"
         animate={inView ? 'visible' : 'hidden'}
-        className="relative z-10 max-w-6xl mx-auto grid md:grid-cols-2 gap-20 items-center"
+        className="relative z-10 max-w-6xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center"
       >
         {/* Left */}
         <div>
@@ -48,7 +48,7 @@ export default function About() {
             </span>
           </motion.span>
 
-          <motion.h2 variants={item} className="text-5xl md:text-7xl font-black leading-none mb-8" style={{ color: 'var(--fg)' }}>
+          <motion.h2 variants={item} className="text-4xl sm:text-5xl md:text-7xl font-black leading-tight md:leading-none mb-6 md:mb-8" style={{ color: 'var(--fg)' }}>
             From shipping features<br />
             <span style={{ background: 'var(--grad-main)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
               to owning deployment
@@ -90,7 +90,7 @@ export default function About() {
         </div>
 
         {/* Right — Stats */}
-        <div className="flex flex-col gap-12">
+        <div className="flex flex-col gap-10 md:gap-12">
           {stats.map((s, i) => (
             <motion.div
               key={s.label}

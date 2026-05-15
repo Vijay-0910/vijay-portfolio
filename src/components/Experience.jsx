@@ -48,7 +48,7 @@ function MilestoneCard({ milestone, index, isLast }) {
       initial={{ opacity: 0, y: 60 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.9, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
-      className="relative grid grid-cols-12 gap-6 pb-20"
+      className="relative grid grid-cols-12 gap-4 md:gap-6 pb-12 md:pb-20"
     >
       {/* Left rail — year + dot */}
       <div className="col-span-12 md:col-span-3 flex md:flex-col gap-4 md:gap-3 items-center md:items-end">
@@ -109,7 +109,7 @@ export default function Experience() {
   const milestones = theme === 'light' ? milestonesLight : milestonesDark
 
   return (
-    <section id="experience" className="relative py-40 px-6 md:px-16 overflow-hidden">
+    <section id="experience" className="relative py-24 md:py-40 px-5 sm:px-6 md:px-16 overflow-hidden">
       {/* Watermark */}
       <div
         className="absolute top-1/2 right-0 -translate-y-1/2 text-[18vw] font-black select-none pointer-events-none whitespace-nowrap z-0 leading-none"
@@ -120,7 +120,7 @@ export default function Experience() {
 
       <div ref={ref} className="relative z-10 max-w-6xl mx-auto">
         {/* Header */}
-        <div className="mb-24 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+        <div className="mb-14 md:mb-24 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <div>
             <motion.span
               initial={{ opacity: 0, x: -20 }}
@@ -138,7 +138,7 @@ export default function Experience() {
               initial={{ opacity: 0, y: 40 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-5xl md:text-7xl font-black leading-none"
+              className="text-4xl sm:text-5xl md:text-7xl font-black leading-tight md:leading-none"
               style={{ color: 'var(--fg)' }}
             >
               Skills, year<br />
