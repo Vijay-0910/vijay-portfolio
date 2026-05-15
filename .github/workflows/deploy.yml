@@ -5,6 +5,10 @@ on:
     branches:
       - dev
 
+concurrency:
+  group: deploy-dev
+  cancel-in-progress: false
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -24,6 +28,15 @@ jobs:
 
       - name: Build React App
         run: npm run build
+
+      - name: Wipe Old Files on EC2
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            find /var/www/html -mindepth 1 -delete
 
       - name: Deploy to EC2
         uses: appleboy/scp-action@v0.1.7
