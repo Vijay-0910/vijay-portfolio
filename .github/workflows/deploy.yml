@@ -29,21 +29,39 @@ jobs:
       - name: Build React App
         run: npm run build
 
-      - name: Wipe Old Files on EC2
+      - name: Generate Release Name
+        id: release
+        run: echo "name=release-$(date +%Y%m%d-%H%M%S)-${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+
+      - name: Prepare Release Directory on EC2
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            find /var/www/html -mindepth 1 -delete
+            mkdir -p /var/www/releases/${{ steps.release.outputs.name }}
 
-      - name: Deploy to EC2
+      - name: Upload Build to Release Directory
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           source: "dist/"
-          target: "/var/www/html"
+          target: "/var/www/releases/${{ steps.release.outputs.name }}"
           strip_components: 1
+
+      - name: Activate New Release
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            set -e
+            # Atomically swap the symlink
+            ln -sfn /var/www/releases/${{ steps.release.outputs.name }} /var/www/current
+            # Keep the 5 most recent releases, delete the rest
+            cd /var/www/releases
+            ls -1t | tail -n +6 | xargs -r rm -rf
