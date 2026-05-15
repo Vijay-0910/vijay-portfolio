@@ -1,6 +1,42 @@
-import { Suspense, useRef, useMemo } from 'react'
+import { Component, Suspense, useRef, useMemo, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Points, PointMaterial } from '@react-three/drei'
+
+function detectWebGL() {
+  if (typeof window === 'undefined') return false
+  try {
+    const canvas = document.createElement('canvas')
+    const attrs = { antialias: true, alpha: true, failIfMajorPerformanceCaveat: false }
+    const gl = canvas.getContext('webgl2', attrs)
+         || canvas.getContext('webgl', attrs)
+         || canvas.getContext('experimental-webgl', attrs)
+    if (!gl || !gl.getParameter) return false
+    gl.getParameter(gl.VERSION)
+    const lose = gl.getExtension('WEBGL_lose_context')
+    if (lose) lose.loseContext()
+    return true
+  } catch {
+    return false
+  }
+}
+
+class WebGLBoundary extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { failed: false }
+  }
+  static getDerivedStateFromError() {
+    return { failed: true }
+  }
+  componentDidCatch(err) {
+    if (typeof console !== 'undefined') {
+      console.warn('[HeroCanvas] WebGL render failed, falling back:', err?.message)
+    }
+  }
+  render() {
+    return this.state.failed ? null : this.props.children
+  }
+}
 
 function StarField({ starColor }) {
   const ref = useRef()
@@ -68,21 +104,32 @@ function Scene({ mouseX, mouseY, colors }) {
 }
 
 export default function HeroCanvas({ mouseX, mouseY, theme }) {
+  const [webglOk, setWebglOk] = useState(() => detectWebGL())
+
   const colors = theme === 'light'
     ? { star: '#FF923E', ring1: '#FF923E', ring2: '#005CA8', ring3: '#FF923E' }
     : { star: '#00d4ff', ring1: '#00d4ff', ring2: '#6d4ad9', ring3: '#5eead4' }
 
+  if (!webglOk) return null
+
   return (
-    <Canvas
-      key={theme}
-      camera={{ position: [0, 0, 4], fov: 60 }}
-      dpr={[1, 2]}
-      style={{ background: 'transparent' }}
-      gl={{ antialias: true, alpha: true }}
-    >
-      <Suspense fallback={null}>
-        <Scene mouseX={mouseX} mouseY={mouseY} colors={colors} />
-      </Suspense>
-    </Canvas>
+    <WebGLBoundary>
+      <Canvas
+        key={theme}
+        camera={{ position: [0, 0, 4], fov: 60 }}
+        dpr={[1, 2]}
+        style={{ background: 'transparent' }}
+        gl={{ antialias: true, alpha: true, failIfMajorPerformanceCaveat: false, powerPreference: 'default' }}
+        onCreated={({ gl }) => {
+          const canvasEl = gl.domElement
+          const handleLost = (e) => { e.preventDefault(); setWebglOk(false) }
+          canvasEl.addEventListener('webglcontextlost', handleLost, { once: true })
+        }}
+      >
+        <Suspense fallback={null}>
+          <Scene mouseX={mouseX} mouseY={mouseY} colors={colors} />
+        </Suspense>
+      </Canvas>
+    </WebGLBoundary>
   )
 }
