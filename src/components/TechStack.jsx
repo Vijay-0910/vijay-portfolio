@@ -264,6 +264,9 @@ export default function TechStack() {
           to   { transform: translateX(-33.333%); }
         }
         .animate-marquee { animation: marquee 45s linear infinite; }
+        @media (max-width: 640px) {
+          .animate-marquee { animation-duration: 20s; }
+        }
       `}</style>
     </section>
   )
