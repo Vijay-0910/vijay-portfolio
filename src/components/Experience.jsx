@@ -4,32 +4,32 @@ import { useTheme } from '../context/ThemeContext'
 
 const milestonesDark = [
   {
-    year: '2023',
-    title: 'Fullstack Foundations',
-    summary: 'Started shipping with React and Node.js — REST APIs, MongoDB, authentication flows.',
-    skills: ['React', 'JavaScript', 'Node.js', 'Express', 'MongoDB', 'REST APIs'],
-    color: '#00d4ff',
-  },
-  {
-    year: '2024',
-    title: 'Mobile + Architecture',
-    summary: 'Expanded into React Native with Expo. Started thinking in modules, middleware, and clean separation.',
-    skills: ['React Native', 'Expo', 'Fastify', 'WebSockets', 'TypeScript', 'Mongoose'],
+    year: '2021 — 2022',
+    title: 'Software Engineering Trainee',
+    summary: 'First production code: shipped ERP modules with React and Node.js. Learned how a real product gets built.',
+    skills: ['React', 'Node.js', 'JavaScript', 'REST APIs'],
     color: '#5eead4',
   },
   {
-    year: '2025',
-    title: 'Deployment + DevOps',
-    summary: 'Took ownership of delivery — Docker, Nginx, GitHub Actions, zero-downtime deploys, Linux server work.',
-    skills: ['Docker', 'Nginx', 'GitHub Actions', 'CI/CD', 'Linux', 'Bash'],
-    color: '#6d4ad9',
+    year: '2022 — 2024',
+    title: 'Fullstack Developer',
+    summary: 'Built frontend and backend for enterprise platforms across banking, healthcare, and B2B — React, Node.js, Express, MongoDB at scale.',
+    skills: ['React', 'Node.js', 'Express', 'MongoDB', 'TypeScript', 'REST APIs'],
+    color: '#00d4ff',
   },
   {
-    year: '2026',
-    title: 'End-to-End Ownership',
-    summary: 'Operating the full lifecycle: cloud infra, multi-stage pipelines, monitoring, and production rollouts on AWS.',
-    skills: ['AWS', 'EC2 / S3', 'Multi-stage Docker', 'Reverse Proxy', 'Monitoring', 'Production Ops'],
-    color: '#00d4ff',
+    year: '2024 — 2025',
+    title: 'Mobile + Architecture',
+    summary: 'Expanded into React Native + Expo, microfrontend architecture, real-time WebSocket flows, and Microsoft Graph integrations.',
+    skills: ['React Native', 'Expo', 'Next.js', 'Fastify', 'WebSocket', 'Microsoft Graph'],
+    color: '#5eead4',
+  },
+  {
+    year: '2025 — 2026',
+    title: 'Started DevOps · Personal Projects',
+    summary: 'Began hosting my own projects end-to-end: AWS EC2, Linux + NGINX, custom domains with HTTPS, Dockerized Node.js, and GitHub Actions CI/CD with zero-downtime SSH deploys.',
+    skills: ['AWS EC2', 'Linux', 'NGINX', 'HTTPS / SSL', 'Docker', 'GitHub Actions', 'Zero-Downtime'],
+    color: '#6d4ad9',
   },
 ]
 
@@ -54,7 +54,7 @@ function MilestoneCard({ milestone, index, isLast }) {
       <div className="col-span-12 md:col-span-3 flex md:flex-col gap-4 md:gap-3 items-center md:items-end">
         <div className="relative md:pr-10">
           <div
-            className="text-5xl md:text-6xl font-black leading-none transition-colors duration-500"
+            className="text-2xl md:text-3xl font-black leading-none whitespace-nowrap transition-colors duration-500"
             style={{ color: milestone.color, opacity: inView ? 1 : 0.3 }}
           >
             {milestone.year}
@@ -141,7 +141,7 @@ export default function Experience() {
               className="text-4xl sm:text-5xl md:text-7xl font-black leading-tight md:leading-none"
               style={{ color: 'var(--fg)' }}
             >
-              Skills, year<br />
+              Career, year<br />
               <span style={{ background: 'var(--grad-alt)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
                 by year
               </span>
@@ -155,7 +155,7 @@ export default function Experience() {
             className="text-sm font-mono max-w-xs leading-relaxed"
             style={{ color: 'var(--fg30)' }}
           >
-            Each year, the scope of what I own has expanded — from features, to systems, to delivery.
+            Each year, the scope of what I own has expanded — from features, to pipelines, to platforms.
           </motion.p>
         </div>
 

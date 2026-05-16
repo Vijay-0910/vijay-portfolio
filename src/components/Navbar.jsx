@@ -133,7 +133,7 @@ export default function Navbar() {
         <ThemeToggle />
 
         <a
-          href="https://www.linkedin.com/in/vijayakumar"
+          href="https://www.linkedin.com/in/vijayakumar-manoharan-49a164175"
           target="_blank"
           rel="noopener noreferrer"
           data-cursor="hover"

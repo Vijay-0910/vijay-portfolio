@@ -1,0 +1,179 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{charter}
+\usepackage[margin=0.65in]{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{ragged2e}
+\usepackage{setspace}
+
+% Color scheme
+\definecolor{primaryblue}{RGB}{25, 55, 110}
+\definecolor{accentblue}{RGB}{40, 90, 160}
+\definecolor{textgray}{RGB}{60, 60, 60}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=accentblue,
+    urlcolor=accentblue,
+    pdfborder={0 0 0}
+}
+
+% Section formatting
+\titleformat{\section}
+    {\color{primaryblue}\Large\bfseries\raggedright}
+    {}{0em}{}[\color{primaryblue}\titlerule]
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+
+% Optimized spacing for lists
+\setlist[itemize]{
+    leftmargin=*,
+    itemsep=1.5pt,
+    topsep=2pt,
+    parsep=0pt,
+    partopsep=0pt,
+    label=\textbullet,
+    after=\vspace{1pt}
+}
+
+% Custom commands
+\newcommand{\resumeSubheading}[4]{
+    \vspace{0.5pt}
+    \begin{tabularx}{\textwidth}{@{}X r@{}}
+        \textbf{\color{textgray}#1} & \color{textgray}\textit{#2} \\
+        \textit{#3} & \textit{#4}
+    \end{tabularx}
+    \vspace{0.5pt}
+}
+
+\newcommand{\projectheading}[1]{
+    \vspace{0.5pt}
+    \textbf{\color{accentblue}#1}
+    \vspace{0.5pt}
+}
+
+% Line spacing
+\renewcommand{\baselinestretch}{1.0}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+\begin{document}
+\pagestyle{empty}
+\color{textgray}
+
+% HEADER
+\begin{center}
+    {\bfseries\color{primaryblue}\fontsize{20}{20}\selectfont VIJAYAKUMAR MANOHARAN} \\[3pt]
+    {\normalsize\color{accentblue} DevOps Engineer | CI/CD | Cloud Infrastructure | Containerization} \\[2pt]
+
+    \color{textgray}
+    \fontsize{10.5}{12}\selectfont
+    Coimbatore, India \enspace | \enspace +91 9965395522 \enspace | \enspace
+    \href{mailto:vijayakumar.m.dev@gmail.com}{vijayakumar.m.dev@gmail.com} \enspace | \enspace
+    \href{https://www.linkedin.com/in/vijayakumar-manoharan-49a164175}{linkedin} \\
+\end{center}
+
+% PROFESSIONAL SUMMARY
+\section*{PROFESSIONAL SUMMARY}
+DevOps Engineer with 4+ years of experience automating build, deployment, and infrastructure workflows for enterprise web applications across banking, healthcare, and B2B platforms. Strong background in CI/CD pipeline design (GitHub Actions, GitLab CI, Jenkins), containerization (Docker, Kubernetes), cloud platforms (AWS, Azure), Infrastructure as Code (Terraform, Ansible), and observability (Prometheus, Grafana, ELK). Proven track record of delivering zero-downtime deployments, reducing release cycles by 60\%, and improving system reliability through automation, monitoring, and SRE best practices. Hands-on full-stack development background (MERN, Node.js) enables deep collaboration with engineering teams on shift-left DevOps practices.
+
+% TECHNICAL SKILLS
+\section*{TECHNICAL SKILLS}
+
+\vspace{2pt}
+\begin{tabular}{@{} l l @{}}
+    \textbf{Cloud Platforms:} & AWS (EC2, S3, ECS, EKS, Lambda, CloudFront, Route53, IAM), Azure, GCP \\[3pt]
+    \textbf{Containerization:} & Docker, Docker Compose, Kubernetes, Helm, ECS, EKS, Container Registry \\[3pt]
+    \textbf{CI/CD Tools:} & GitHub Actions, GitLab CI, Jenkins, ArgoCD, CircleCI, Azure DevOps \\[3pt]
+    \textbf{Infrastructure as Code:} & Terraform, Ansible, CloudFormation, Pulumi \\[3pt]
+    \textbf{Monitoring \& Logging:} & Prometheus, Grafana, ELK Stack, CloudWatch, Datadog, New Relic, Sentry \\[3pt]
+    \textbf{Scripting \& Automation:} & Bash, Python, Node.js, YAML, Groovy, PowerShell \\[3pt]
+    \textbf{Web \& Network:} & Nginx, Apache, Load Balancing, Reverse Proxy, SSL/TLS, DNS, CDN \\[3pt]
+    \textbf{Databases \& Caching:} & MongoDB, MySQL, PostgreSQL, Redis, MongoDB Atlas \\[3pt]
+    \textbf{Security \& Secrets:} & HashiCorp Vault, AWS Secrets Manager, OAuth 2.0, JWT, SAST/DAST scanning \\[3pt]
+    \textbf{Version Control:} & Git, GitHub, GitLab, Bitbucket, GitOps, Trunk-Based Development \\[3pt]
+    \textbf{Development Stack:} & Node.js, Express.js, React.js, TypeScript, REST APIs, WebSocket
+\end{tabular}
+
+% PROFESSIONAL EXPERIENCE
+\section*{PROFESSIONAL EXPERIENCE}
+
+\resumeSubheading
+    {DevOps Engineer / Senior Full Stack Developer}{May 2022 -- Present}
+    {Kovaion Consulting Pvt. Ltd.}{Coimbatore, India}
+
+\projectheading{AI-Powered Low-Code Platform -- CI/CD \& Container Orchestration}
+\begin{itemize}
+    \item \textbf{Tech:} Docker | Kubernetes | GitHub Actions | AWS ECS | Nginx | Node.js | MongoDB Atlas | Redis
+    \item Designed and implemented end-to-end CI/CD pipelines using GitHub Actions for multi-service deployments, reducing release cycle time by 60\% and eliminating manual deployment errors
+    \item Containerized microservices using Docker with multi-stage builds, reducing image sizes by 50\% and improving cold-start times for production workloads
+    \item Orchestrated deployments on AWS ECS / Kubernetes with auto-scaling, rolling updates, and zero-downtime blue-green strategies for high-availability SLAs
+    \item Implemented Infrastructure as Code using Terraform for VPCs, ECS clusters, IAM roles, and S3 lifecycle policies — enabling reproducible environments across dev/stage/prod
+    \item Configured centralized observability stack (Prometheus + Grafana + Loki) with alerting on SLOs, achieving sub-5-minute MTTR for critical incidents
+\end{itemize}
+
+\projectheading{HRMS Mobile Platform -- Canara Bank (Release Automation)}
+\begin{itemize}
+    \item \textbf{Tech:} Jenkins | Fastlane | AWS S3 | CloudFront | Ansible | PeopleSoft APIs
+    \item Built automated release pipelines for mobile app distribution (Android \& iOS) serving 40,000+ banking employees, integrating Fastlane with Jenkins for signed builds and staged rollouts
+    \item Hardened deployment workflow with secret management via AWS Secrets Manager and signing-key isolation per environment, meeting banking-grade compliance requirements
+    \item Automated backend API deployments using Ansible playbooks with rollback hooks, eliminating manual SSH-based releases
+    \item Set up CloudFront + S3 for static asset delivery with cache invalidation hooks in the pipeline, cutting global load times by 40\%
+\end{itemize}
+
+\projectheading{Doctor Appointment Portal -- Infrastructure \& Real-Time Services}
+\begin{itemize}
+    \item \textbf{Tech:} Docker | Kubernetes | Helm | NGINX Ingress | Redis | WebSocket | Microsoft Graph API
+    \item Deployed multi-service portal on Kubernetes using Helm charts with horizontal pod autoscaling for WebSocket-driven workloads
+    \item Configured NGINX Ingress with TLS termination, sticky sessions for WebSocket, and rate limiting for public-facing endpoints
+    \item Built Redis cluster for pub/sub + caching layer reducing API latency by 50\% and enabling sub-100ms real-time event delivery
+    \item Automated certificate renewal using cert-manager + Let's Encrypt and integrated health checks / liveness probes for every service
+\end{itemize}
+
+\projectheading{Payroll Automation System -- IKS Health (Pipeline \& Data Integration)}
+\begin{itemize}
+    \item \textbf{Tech:} GitLab CI | Docker | Oracle HCM | MongoDB | Node.js | Bash
+    \item Built GitLab CI pipelines with parallelized test stages, container builds, and gated promotion to staging/production environments
+    \item Implemented automated DB migration jobs with pre-deploy snapshots and rollback scripts for safe payroll data changes
+    \item Set up scheduled cron-based ETL workers in Docker to sync Oracle HCM data with Mongo — eliminating 80\% of manual processing
+    \item Achieved 75\% test-stage automation coverage with linting, unit tests, and integration smoke tests gating every merge
+\end{itemize}
+
+\projectheading{Sportzia -- Scalable Microservice Deployment}
+\begin{itemize}
+    \item \textbf{Tech:} Docker | Kubernetes | AWS EKS | Redis | Stripe/Razorpay Webhooks | NGINX
+    \item Architected microservice deployment on AWS EKS serving 10K+ concurrent users with horizontal pod autoscaling tied to CPU + custom WebSocket metrics
+    \item Hardened payment-webhook ingress with idempotency, retry-with-backoff, and dead-letter queues — eliminating revenue-impacting webhook losses
+    \item Built blue-green deployment workflow with traffic-shift validation, enabling zero-downtime releases during peak event windows
+    \item Configured Redis pub/sub at infrastructure level for real-time score broadcasting across pods
+\end{itemize}
+\vspace{0pt}
+\resumeSubheading
+    {Software Engineering Trainee}{Nov 2021 -- Apr 2022}
+    {Genn Infotech}{Coimbatore, India}
+
+\projectheading{Internal ERP System}
+\begin{itemize}
+    \item Authored Bash and Node.js automation scripts for ERP build / deploy tasks and contributed to Dockerizing legacy services for local dev parity
+\end{itemize}
+
+% EDUCATION
+\section*{EDUCATION}
+
+\resumeSubheading
+    {Master of Science in Computer Science}{2018 -- 2020}
+    {Bharathidasan College of Arts and Science}{Erode, India}
+
+\textit{Relevant Coursework:} Data Structures, Algorithms, Operating Systems, Networking, Database Management, Software Engineering
+
+\vspace{2pt}
+
+\resumeSubheading
+    {Bachelor of Science in Computer Science}{2015 -- 2018}
+    {Bharathidasan College of Arts and Science}{Erode, India}
+
+\end{document}

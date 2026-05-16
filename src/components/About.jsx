@@ -2,12 +2,12 @@ import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 
 const stats = [
-  { value: '2+',  label: 'Years building fullstack' },
-  { value: '15+', label: 'Projects shipped to production' },
-  { value: '8+',  label: 'DevOps tools in active use' },
+  { value: '4+',  label: 'Years building fullstack' },
+  { value: '11+', label: 'DevOps skills hands-on' },
+  { value: '0',   label: 'Downtime on production deploys' },
 ]
 
-const traits = ['React', 'React Native', 'Node.js', 'Express', 'MongoDB', 'Docker', 'Nginx', 'AWS', 'CI/CD']
+const traits = ['AWS EC2', 'Linux', 'NGINX', 'Docker', 'GitHub Actions', 'SSH', 'Zero-Downtime', 'HTTPS / SSL', 'React', 'Node.js']
 
 export default function About() {
   const ref = useRef(null)
@@ -49,21 +49,21 @@ export default function About() {
           </motion.span>
 
           <motion.h2 variants={item} className="text-4xl sm:text-5xl md:text-7xl font-black leading-tight md:leading-none mb-6 md:mb-8" style={{ color: 'var(--fg)' }}>
-            From shipping features<br />
+            From writing features<br />
             <span style={{ background: 'var(--grad-main)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-              to owning deployment
+              to owning delivery
             </span>
           </motion.h2>
 
           <motion.p variants={item} className="text-lg leading-relaxed mb-6" style={{ color: 'var(--fg50)' }}>
-            I'm a fullstack developer who's expanded beyond the code editor — containerising apps,
-            wiring up CI/CD pipelines, configuring Nginx, and deploying to AWS without breaking production.
+            Full Stack Developer growing into DevOps — setting up AWS EC2 servers,
+            NGINX reverse proxies, Docker containers, and GitHub Actions pipelines for my own projects.
           </motion.p>
 
           <motion.p variants={item} className="text-base leading-relaxed mb-10" style={{ color: 'var(--fg35)' }}>
-            Each project I build now ships the full lifecycle: write it, dockerize it, deploy it, monitor it.
-            That shift — from "developer who writes features" to "engineer who owns delivery" — is what this
-            site documents.
+            This site isn't a job hunt — it's a working portfolio of the DevOps skills I'm building
+            alongside my fullstack work: real EC2 deployments, custom domains with HTTPS, Dockerized
+            backends, and zero-downtime CI/CD straight from GitHub.
           </motion.p>
 
           {/* Tags */}

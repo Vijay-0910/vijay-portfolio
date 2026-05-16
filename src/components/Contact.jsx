@@ -2,10 +2,10 @@ import { useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 
 const socials = [
-  { label: 'LinkedIn', handle: '/in/vijayakumar', href: 'https://www.linkedin.com/in/vijayakumar', note: 'Where I post the journey' },
-  { label: 'GitHub',   handle: '@vijayakumar',    href: 'https://github.com/vijayakumar',         note: 'Code lives here' },
-  { label: 'Twitter',  handle: '@vijayakumar',    href: 'https://twitter.com/vijayakumar',        note: 'Occasional dev notes' },
-  { label: 'Email',    handle: 'aravindfinal1@gmail.com', href: 'mailto:aravindfinal1@gmail.com', note: 'Direct line — copy or click', copyable: true },
+  { label: 'LinkedIn', handle: '/in/vijayakumar-manoharan', href: 'https://www.linkedin.com/in/vijayakumar-manoharan-49a164175', note: 'Where I post the journey' },
+  { label: 'GitHub',   handle: '@Vijay-0910',               href: 'https://github.com/Vijay-0910',                                note: 'Pipelines, infra, and code' },
+  { label: 'Phone',    handle: '+91 9965395522',            href: 'tel:+919965395522',                                            note: 'Coimbatore, India · IST' },
+  { label: 'Email',    handle: 'vijayakumar.m.dev@gmail.com', href: 'mailto:vijayakumar.m.dev@gmail.com',                         note: 'Direct line — copy or click', copyable: true },
 ]
 
 function SocialRow({ social: s, isLast }) {
@@ -173,8 +173,8 @@ export default function Contact() {
               className="text-base leading-relaxed mb-6 max-w-md"
               style={{ color: 'var(--fg50)' }}
             >
-              I'm not hunting for a new role — I'm documenting the climb from fullstack into DevOps,
-              one shipped project at a time.
+              Not job hunting — just showcasing the DevOps skills I'm building alongside fullstack
+              work, one shipped project at a time.
             </motion.p>
 
             <motion.p
@@ -186,7 +186,7 @@ export default function Contact() {
               style={{ color: 'var(--fg35)' }}
             >
               If something here resonates — a tool, a project, a decision — find me on any of these. Always up
-              for a conversation about pipelines, containers, or what to learn next.
+              for a conversation about EC2 setup, NGINX, Docker, or GitHub Actions deploys.
             </motion.p>
           </div>
 

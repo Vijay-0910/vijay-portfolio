@@ -3,18 +3,17 @@ import { motion, useInView } from 'framer-motion'
 import { useTheme } from '../context/ThemeContext'
 
 const projectsDark = [
-  { id: 1, num: '01', title: 'DevOps Dashboard',    subtitle: 'Infrastructure at a glance',   tags: ['Docker','Node.js','React','AWS'],                    color: '#6d4ad9', description: 'Real-time infrastructure monitoring with CI/CD pipeline visualization, container health checks, and deployment history.', year: '2025' },
-  { id: 2, num: '02', title: 'Commerce Platform',   subtitle: 'Full-stack e-commerce engine',  tags: ['React','Fastify','MongoDB','Stripe'],                color: '#00d4ff', description: 'High-performance e-commerce platform with real-time inventory, dynamic pricing engine, and seamless payment flows.',    year: '2025' },
-  { id: 3, num: '03', title: 'Mobile Delivery App', subtitle: 'React Native · Expo',           tags: ['React Native','Expo','Node.js','MongoDB'],           color: '#5eead4', description: 'Cross-platform delivery tracking app with live GPS, push notifications, and offline-first architecture using Expo.',    year: '2024' },
-  { id: 4, num: '04', title: 'API Gateway',         subtitle: 'Microservices orchestration',   tags: ['Fastify','Docker','Nginx','GitHub Actions'],         color: '#00d4ff', description: 'Highly-available API gateway with rate limiting, JWT auth, request routing, and zero-downtime deployments.',           year: '2024' },
+  { id: 1, num: '01', title: 'Personal Portfolio',          subtitle: 'AWS EC2 · NGINX · GitHub Actions', tags: ['AWS EC2','NGINX','Docker','GitHub Actions'], color: '#6d4ad9', description: 'This site — Linux on EC2, NGINX reverse proxy with Let\'s Encrypt HTTPS, Dockerized backend, GitHub Actions pipeline for zero-downtime SSH deploys on every push.', year: '2026' },
+  { id: 2, num: '02', title: 'AI Low-Code Platform',        subtitle: 'Enterprise Fullstack Project',     tags: ['React','Node.js','Express','MongoDB'],       color: '#00d4ff', description: 'Enterprise low-code builder — drag-and-drop dashboards, form schemas, RBAC, document management. Built end-to-end with the MERN stack.',                          year: '2024' },
+  { id: 3, num: '03', title: 'HRMS Mobile — Canara Bank',   subtitle: 'React Native · 40K users',         tags: ['React Native','Redux','TypeScript','REST'],  color: '#5eead4', description: 'Modern React Native HRMS for 40,000+ banking employees on Android and iOS, integrated with PeopleSoft REST APIs.',                                              year: '2023' },
+  { id: 4, num: '04', title: 'Doctor Appointment Portal',   subtitle: 'React SPA · Teams Integration',    tags: ['React','Node.js','Microsoft Graph','WebSocket'], color: '#00d4ff', description: 'Single Page App for clinics with Microsoft Teams/Outlook calendar sync and WebSocket real-time appointment updates.',                                       year: '2024' },
+  { id: 5, num: '05', title: 'Sportzia — Event Platform',   subtitle: 'React Native · Cross-platform',    tags: ['React Native','Node.js','MongoDB','Stripe'], color: '#6d4ad9', description: 'Sports event management app with real-time score updates, Stripe/Razorpay payments, and cross-platform mobile + web reach.',                                  year: '2025' },
 ]
 
-const projectsLight = [
-  { id: 1, num: '01', title: 'DevOps Dashboard',    subtitle: 'Infrastructure at a glance',   tags: ['Docker','Node.js','React','AWS'],                    color: '#FF923E', description: 'Real-time infrastructure monitoring with CI/CD pipeline visualization, container health checks, and deployment history.', year: '2025' },
-  { id: 2, num: '02', title: 'Commerce Platform',   subtitle: 'Full-stack e-commerce engine',  tags: ['React','Fastify','MongoDB','Stripe'],                color: '#005CA8', description: 'High-performance e-commerce platform with real-time inventory, dynamic pricing engine, and seamless payment flows.',    year: '2025' },
-  { id: 3, num: '03', title: 'Mobile Delivery App', subtitle: 'React Native · Expo',           tags: ['React Native','Expo','Node.js','MongoDB'],           color: '#FF923E', description: 'Cross-platform delivery tracking app with live GPS, push notifications, and offline-first architecture using Expo.',    year: '2024' },
-  { id: 4, num: '04', title: 'API Gateway',         subtitle: 'Microservices orchestration',   tags: ['Fastify','Docker','Nginx','GitHub Actions'],         color: '#005CA8', description: 'Highly-available API gateway with rate limiting, JWT auth, request routing, and zero-downtime deployments.',           year: '2024' },
-]
+const projectsLight = projectsDark.map((p, i) => ({
+  ...p,
+  color: i % 2 === 0 ? '#FF923E' : '#005CA8',
+}))
 
 function ProjectCard({ project, index }) {
   const ref = useRef(null)
@@ -163,7 +162,7 @@ export default function Projects() {
             className="text-sm font-mono max-w-xs leading-relaxed"
             style={{ color: 'var(--fg30)' }}
           >
-            Real projects built to learn — deployed, documented, and shared on LinkedIn.
+            Enterprise fullstack work plus personal projects where I'm learning DevOps end-to-end.
           </motion.p>
         </div>
 
@@ -180,17 +179,17 @@ export default function Projects() {
           className="mt-16 flex justify-center"
         >
           <a
-            href="https://github.com/vijayakumar"
+            href="https://www.linkedin.com/in/vijayakumar-manoharan-49a164175"
             target="_blank"
             rel="noopener noreferrer"
             data-cursor="hover"
-            aria-label="View all projects on GitHub"
+            aria-label="More on LinkedIn"
             className="group inline-flex items-center gap-4 text-sm font-mono transition-colors duration-300"
             style={{ color: 'var(--fg30)' }}
             onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--fg)')}
             onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--fg30)')}
           >
-            View all projects on GitHub ↗
+            More on LinkedIn ↗
             <span className="w-8 h-px transition-all duration-300 group-hover:w-16" style={{ backgroundColor: 'var(--fg20)' }} />
           </a>
         </motion.div>

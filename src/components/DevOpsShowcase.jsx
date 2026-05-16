@@ -16,12 +16,17 @@ const pipelineLight = pipelineDark.map((p, i) => ({
 }))
 
 const capabilities = [
-  { title: 'Containerise apps',     detail: 'Multi-stage Dockerfiles, slim production images, .dockerignore hygiene.' },
-  { title: 'CI/CD pipelines',       detail: 'GitHub Actions workflows: lint, test, build, push, deploy — gated on main.' },
-  { title: 'Zero-downtime deploys', detail: 'Docker container swaps behind Nginx, health checks before cutover.' },
-  { title: 'Cloud infrastructure',  detail: 'AWS EC2 provisioning, S3 buckets, IAM roles, CloudWatch logs.' },
-  { title: 'Reverse proxy + TLS',   detail: 'Nginx config, Let\'s Encrypt certs, request routing, rate limiting.' },
-  { title: 'Linux server ops',      detail: 'systemd services, journalctl, ufw, SSH hardening, cron jobs.' },
+  { title: 'AWS EC2 server setup',       detail: 'Provisioning EC2 instances, security groups, key pairs, and SSH access for production hosting.' },
+  { title: 'Linux & NGINX configuration', detail: 'Ubuntu/Debian server admin — systemd, journalctl, ufw, NGINX virtual hosts and conf files.' },
+  { title: 'Custom domain + HTTPS SSL',  detail: 'DNS records, NGINX server blocks, Let\'s Encrypt certificates with auto-renewal.' },
+  { title: 'React frontend deployment',  detail: 'Vite build, static asset hosting, gzip + caching headers via NGINX.' },
+  { title: 'Node.js backend deployment', detail: 'Express services running behind NGINX with PM2 or Docker, environment-isolated configs.' },
+  { title: 'NGINX reverse proxy',        detail: 'Routing requests to backend services, TLS termination, gzip, proper headers and timeouts.' },
+  { title: 'GitHub Actions CI/CD',       detail: 'Workflows for lint, build, and deploy on push — secrets and environments managed in GitHub.' },
+  { title: 'SSH-based secure deploys',   detail: 'Key-based auth, ssh-agent forwarding, and Actions runners pushing artifacts to EC2.' },
+  { title: 'Zero-downtime deployments',  detail: 'Health-checked container swaps behind NGINX so live traffic never hits a starting container.' },
+  { title: 'Dockerized backend services', detail: 'Multi-stage Dockerfiles, .dockerignore hygiene, slim runtime images for Node.js apps.' },
+  { title: 'Automated production deploys', detail: 'Every push to main runs the full chain — test, build, ship, restart — no manual steps.' },
 ]
 
 function PipelineIcon({ icon, color }) {

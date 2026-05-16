@@ -155,7 +155,7 @@ export default function Hero() {
             />
           </span>
           <span className="font-mono text-[11px] tracking-wider uppercase" style={{ color: 'var(--fg60)' }}>
-            Open to opportunities · Building in public
+            Building in public · Learning DevOps end-to-end
           </span>
         </motion.div>
 

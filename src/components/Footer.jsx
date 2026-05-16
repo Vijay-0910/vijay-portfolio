@@ -11,7 +11,7 @@ export default function Footer() {
         <div className="flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: 'var(--accent)' }} />
           <span className="font-mono text-[11px] sm:text-xs" style={{ color: 'var(--fg20)' }}>
-            Fullstack · DevOps · Shipping in public
+            Full Stack · Showcasing DevOps · Shipping in public
           </span>
         </div>
 
