@@ -1,39 +1,11 @@
-import { useEffect, useRef, useState, lazy, Suspense } from 'react'
+import { useEffect, useRef, lazy, Suspense } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 import { useTheme } from '../context/ThemeContext'
 
+// Hero is the first thing on the page — mount the WebGL canvas immediately,
+// don't defer behind IntersectionObserver. Lazy-load the chunk so it's still
+// kept out of the initial JS critical path.
 const HeroCanvas = lazy(() => import('./HeroCanvas'))
-
-function useDeferredMount(ref) {
-  const [ready, setReady] = useState(false)
-  useEffect(() => {
-    if (ready || !ref.current) return
-    const node = ref.current
-    let cancelled = false
-    const trigger = () => { if (!cancelled) setReady(true) }
-
-    const io = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { trigger(); io.disconnect() } },
-      { rootMargin: '200px' }
-    )
-    io.observe(node)
-
-    const idle = window.requestIdleCallback
-      ? window.requestIdleCallback(trigger, { timeout: 2000 })
-      : window.setTimeout(trigger, 1500)
-
-    return () => {
-      cancelled = true
-      io.disconnect()
-      if (window.cancelIdleCallback && typeof idle === 'number') {
-        window.cancelIdleCallback(idle)
-      } else {
-        window.clearTimeout(idle)
-      }
-    }
-  }, [ready, ref])
-  return ready
-}
 
 const sentence = {
   hidden: { opacity: 1 },
@@ -54,8 +26,6 @@ export default function Hero() {
   const springY = useSpring(mouseY, { stiffness: 40, damping: 20 })
   const orbX = useMotionValue(0)
   const orbSpringX = useSpring(orbX, { stiffness: 20, damping: 15 })
-  const canvasMountRef = useRef(null)
-  const canvasReady = useDeferredMount(canvasMountRef)
 
   useEffect(() => {
     const handleMouse = (e) => {
@@ -75,13 +45,11 @@ export default function Hero() {
       id="hero"
       className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden"
     >
-      {/* WebGL — deferred until in view or idle */}
-      <div ref={canvasMountRef} className="absolute inset-0 z-0">
-        {canvasReady && (
-          <Suspense fallback={null}>
-            <HeroCanvas mouseX={springX} mouseY={springY} theme={theme} />
-          </Suspense>
-        )}
+      {/* WebGL — mounted immediately, lazy-loaded chunk */}
+      <div className="absolute inset-0 z-0">
+        <Suspense fallback={null}>
+          <HeroCanvas mouseX={springX} mouseY={springY} theme={theme} />
+        </Suspense>
       </div>
 
       {/* Gradient fade to bg */}

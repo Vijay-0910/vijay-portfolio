@@ -38,8 +38,9 @@ class WebGLBoundary extends Component {
   }
 }
 
-function StarField({ starColor, count }) {
+function StarField({ starColor }) {
   const ref = useRef()
+  const count = 3000
 
   const positions = useMemo(() => {
     const arr = new Float32Array(count * 3)
@@ -49,7 +50,7 @@ function StarField({ starColor, count }) {
       arr[i * 3 + 2] = (Math.random() - 0.5) * 20
     }
     return arr
-  }, [count])
+  }, [])
 
   useFrame((_, delta) => {
     if (!ref.current) return
@@ -83,9 +84,8 @@ function FloatingRing({ position, color, speed = 1 }) {
   )
 }
 
-function Scene({ mouseX, mouseY, colors, isMobile }) {
+function Scene({ mouseX, mouseY, colors }) {
   const groupRef = useRef()
-  const starCount = isMobile ? 800 : 3000
 
   useFrame(() => {
     if (!groupRef.current) return
@@ -95,40 +95,138 @@ function Scene({ mouseX, mouseY, colors, isMobile }) {
 
   return (
     <group ref={groupRef}>
-      <StarField starColor={colors.star} count={starCount} />
-      {!isMobile && <FloatingRing position={[0, 0, -3]}  color={colors.ring1} speed={0.8} />}
-      <FloatingRing position={[2, -1, -5]} color={colors.ring2} speed={isMobile ? 0.8 : 1.2} />
-      {!isMobile && <FloatingRing position={[-2, 1, -4]} color={colors.ring3} speed={0.6} />}
+      <StarField starColor={colors.star} />
+      <FloatingRing position={[0, 0, -3]}  color={colors.ring1} speed={0.8} />
+      <FloatingRing position={[2, -1, -5]} color={colors.ring2} speed={1.2} />
+      <FloatingRing position={[-2, 1, -4]} color={colors.ring3} speed={0.6} />
     </group>
+  )
+}
+
+// Pure-CSS fallback: three 3D-tilted rotating rings, offset in space
+// to mimic the WebGL torus positions ([0,0,-3], [2,-1,-5], [-2,1,-4]).
+// Used when WebGL is unavailable (hardware accel off, blocked extensions, etc.).
+function CssRingsFallback({ colors }) {
+  return (
+    <div
+      className="absolute inset-0 overflow-hidden pointer-events-none"
+      style={{ perspective: '1200px', perspectiveOrigin: '50% 50%' }}
+    >
+      <style>{`
+        @keyframes hero-ring-orbit-1 {
+          0%   { transform: translate(-50%, -50%) rotateX(65deg) rotateY(0deg)   rotateZ(0deg); }
+          100% { transform: translate(-50%, -50%) rotateX(65deg) rotateY(360deg) rotateZ(180deg); }
+        }
+        @keyframes hero-ring-orbit-2 {
+          0%   { transform: translate(-50%, -50%) rotateX(-55deg) rotateY(0deg)    rotateZ(0deg); }
+          100% { transform: translate(-50%, -50%) rotateX(-55deg) rotateY(-360deg) rotateZ(-180deg); }
+        }
+        @keyframes hero-ring-orbit-3 {
+          0%   { transform: translate(-50%, -50%) rotateX(40deg) rotateY(0deg)   rotateZ(0deg); }
+          100% { transform: translate(-50%, -50%) rotateX(40deg) rotateY(360deg) rotateZ(360deg); }
+        }
+        @keyframes hero-ring-bob {
+          0%, 100% { translate: 0 0; }
+          50%      { translate: 0 16px; }
+        }
+        .hero-css-ring-wrap {
+          position: absolute;
+          transform-style: preserve-3d;
+          will-change: transform;
+        }
+        .hero-css-ring-disc {
+          position: absolute;
+          top: 50%; left: 50%;
+          transform-style: preserve-3d;
+          border-radius: 50%;
+          border-style: solid;
+          border-width: 1px;
+          opacity: 0.5;
+          will-change: transform;
+        }
+      `}</style>
+
+      {/* Ring 1 — center, the main one, tilted forward */}
+      <div
+        className="hero-css-ring-wrap"
+        style={{
+          top: '50%', left: '50%',
+          width: '1px', height: '1px',
+          animation: 'hero-ring-bob 6s ease-in-out infinite',
+        }}
+      >
+        <div
+          className="hero-css-ring-disc"
+          style={{
+            width: 'min(28vw, 280px)', aspectRatio: '1',
+            color: colors.ring1,
+            borderColor: colors.ring1,
+            animation: 'hero-ring-orbit-1 18s linear infinite',
+          }}
+        />
+      </div>
+
+      {/* Ring 2 — offset right & down, smaller, tilted back */}
+      <div
+        className="hero-css-ring-wrap"
+        style={{
+          top: '58%', left: '58%',
+          width: '1px', height: '1px',
+          animation: 'hero-ring-bob 7s ease-in-out infinite',
+        }}
+      >
+        <div
+          className="hero-css-ring-disc"
+          style={{
+            width: 'min(22vw, 220px)', aspectRatio: '1',
+            color: colors.ring2,
+            borderColor: colors.ring2,
+            animation: 'hero-ring-orbit-2 14s linear infinite',
+          }}
+        />
+      </div>
+
+      {/* Ring 3 — offset left & up, mid size, gentle tilt */}
+      <div
+        className="hero-css-ring-wrap"
+        style={{
+          top: '42%', left: '42%',
+          width: '1px', height: '1px',
+          animation: 'hero-ring-bob 9s ease-in-out infinite',
+        }}
+      >
+        <div
+          className="hero-css-ring-disc"
+          style={{
+            width: 'min(25vw, 250px)', aspectRatio: '1',
+            color: colors.ring3,
+            borderColor: colors.ring3,
+            animation: 'hero-ring-orbit-3 22s linear infinite',
+          }}
+        />
+      </div>
+    </div>
   )
 }
 
 export default function HeroCanvas({ mouseX, mouseY, theme }) {
   const [webglOk, setWebglOk] = useState(() => detectWebGL())
-  const [isMobile] = useState(() =>
-    typeof window !== 'undefined' &&
-    (window.matchMedia?.('(max-width: 640px)').matches || window.innerWidth < 640)
-  )
 
   const colors = theme === 'light'
     ? { star: '#FF923E', ring1: '#FF923E', ring2: '#005CA8', ring3: '#FF923E' }
     : { star: '#00d4ff', ring1: '#00d4ff', ring2: '#6d4ad9', ring3: '#5eead4' }
 
-  if (!webglOk) return null
+  // No WebGL? Render the CSS fallback rings instead of an empty void.
+  if (!webglOk) return <CssRingsFallback colors={colors} />
 
   return (
     <WebGLBoundary>
       <Canvas
         key={theme}
         camera={{ position: [0, 0, 4], fov: 60 }}
-        dpr={isMobile ? 1 : [1, 2]}
+        dpr={[1, 2]}
         style={{ background: 'transparent' }}
-        gl={{
-          antialias: !isMobile,
-          alpha: true,
-          failIfMajorPerformanceCaveat: false,
-          powerPreference: isMobile ? 'low-power' : 'default',
-        }}
+        gl={{ antialias: true, alpha: true, failIfMajorPerformanceCaveat: false, powerPreference: 'default' }}
         onCreated={({ gl }) => {
           const canvasEl = gl.domElement
           const handleLost = (e) => { e.preventDefault(); setWebglOk(false) }
@@ -136,7 +234,7 @@ export default function HeroCanvas({ mouseX, mouseY, theme }) {
         }}
       >
         <Suspense fallback={null}>
-          <Scene mouseX={mouseX} mouseY={mouseY} colors={colors} isMobile={isMobile} />
+          <Scene mouseX={mouseX} mouseY={mouseY} colors={colors} />
         </Suspense>
       </Canvas>
     </WebGLBoundary>
